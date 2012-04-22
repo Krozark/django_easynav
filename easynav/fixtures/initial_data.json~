@@ -1,0 +1,16 @@
+[
+    {
+        "model" : "easynav.ItemMenu",
+        "pk" : 1,
+        "fields" : {
+            "name" : "main",
+            "rank" : 0,
+            "slug" : "main",
+            "parent" : 1,
+            "view" : "",
+            "is_visible" : 0,
+            "auto_create_page" : 0,
+            "url" : ""
+        }
+    }
+]

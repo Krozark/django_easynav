@@ -1,0 +1,6 @@
+{% load markup generic_flatblocks %}
+
+{% gblock object.slug for object.content_type into "block" %}
+<h2>{{ block.title }}</h2>
+{{ block.text|textile }}
+

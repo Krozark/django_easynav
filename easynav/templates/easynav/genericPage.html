@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block project.body %}
+
+{% for object in content_blocks %}
+<div class="block">
+    {% with name="include/"|add:object.content_type|add:".inc.html" %}
+    {% include name %}
+    {% endwith %}
+</div>
+{% endfor %}
+
+{% endblock %}
