@@ -3,6 +3,7 @@
 from django.template import Library, Node, VariableDoesNotExist, TemplateSyntaxError
 from django.utils.translation import ugettext_lazy as _
 from easynav.models import ItemMenu, ItemPage
+from django.db.models import Q
 
 register = Library()
 
@@ -13,9 +14,10 @@ class makeSubUl(Node):
 
     def render(self, context):
         path=context['request'].path
+
         parent = None
         try:
-            parent = ItemMenu.objects.filter(url=path).exclude(slug='main').get()
+            parent = ItemMenu.objects.filter(Q(url=path) | Q(url = path[0:-1])).distinct().exclude(slug='main').get()
         except:
             return ""
 
@@ -36,22 +38,29 @@ class makeUl(Node):
 
     def render(self, context):
         path=context['request'].path
+        obj = ItemMenu.objects.filter(Q(url = path) | Q(url = path[0:-1])).distinct().exclude(slug="main").get()
+        activs = [obj,]
+        
+        while True:
+            obj = obj.parent
+            if obj.slug != "main" :
+                activs.append(obj)
+            else:
+                break
+
 
         def makelevel(res,lvl,parent):
-            res +='<ul class="menu menu-lvl-%d">' % lvl
+            res +='<ul class="menu menu-lvl-%d">\n' % lvl
             for u in parent.itemmenu_set.filter(is_visible=True).order_by('rank'):
                 status="inactive"
-                if path =="/":
-                    if u.url == "/":
-                        status="active"
-                elif path.startswith(u.url) and u.url != "/":
+                if u in activs:
                     status="active"
 
-                res+= '<li class="item item-lvl-%d %s"><a href="%s">%s' % (lvl,status,u.url,u.name)
+                res+= '<li class="item item-lvl-%d %s">\n<a href="%s">%s</a>\n' % (lvl,status,u.url,u.name)
                 if lvl < self.prof or self.prof == -1:
                     res = makelevel(res,lvl +1 ,u)
-                res+='</a></li>'
-            res+='</ul>'
+                res+='</li>\n'
+            res+='</ul>\n'
             return res
 
         res=""
@@ -64,7 +73,6 @@ class makeUl(Node):
                 makelevel(res,0,u)
             except ItemMenu.DoesNotExist:
                 pass
-
         return res
 
         
@@ -110,7 +118,7 @@ def getnav(parser, token):
     except:
         pass
     if prof < 0:
-        prof = 0
+        prof = -1
     elif len(tokens) != 0:
         error()
 

@@ -14,7 +14,6 @@ class GenericView(TemplateView):
     template_name = "easynav/genericPage.html"
 
     def get_context_data(self, **kwargs):
-        print kwargs
         context = super(GenericView, self).get_context_data(**kwargs)
         slug =  kwargs.get('slug',False)
         if slug:

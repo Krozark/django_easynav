@@ -51,10 +51,16 @@ class ItemMenuForm(forms.ModelForm):
 
         else: #auto
             if link:
-                self.url = link
+                if link[0] != "/":
+                    self.url = "/"+link
+                else:
+                    self.url = link
                 return link
 
-        self.url = self.cleaned_data['parent'].url +"/"+self.cleaned_data['slug'] 
+        if self.cleaned_data['parent'].url == "/":
+            self.url = "/"+self.cleaned_data['slug'] 
+        else:
+            self.url = self.cleaned_data['parent'].url +"/"+self.cleaned_data['slug'] 
         return self.cleaned_data['slug']
 
     def clean(self):
