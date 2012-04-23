@@ -1,18 +1,19 @@
+===========
 Introduction
 ===========
 
 
-Requirement:
-* gblock module
-  * To add different blocks type you page
+Requirements:
+* gblocks module
+    * To add different blocks type you page
 * textile (by default) as markup language
-  * You can disable it by overwriting the templates
+    * You can disable it by overwriting the templates
 
 This module is a easy way to make a simle navigation in you website, or a complexe.
 Morover, integrete a systeme to create pages and his content using the admin interface.
 I recomande you to use a module that permit you to edits the database content without use the admin interface (for exemple frontadmin )
 
-
+============
 Instalations
 ============
 
@@ -26,9 +27,12 @@ to your INSTALLED_APPS
 
 
 
-
+===
 Use
 ===
+
+The Nav
+=======
 
 Main Nav
 --------
@@ -38,6 +42,7 @@ Include in you template::
     {% load easynav_tags %}
 
 To display the main nav use the follwing tag::
+    
     {% getnav for <node> with lvl = <x>  %}
 
 
@@ -55,11 +60,13 @@ The subnav
 ---------
 
 You can use the previous tag, but you will have to hand code all your pages. A veriant tag could be use to sho the sub nav of the current page (using the path)::
+    
     {% getnav for "active" %}
 
 This tag will display the FIRST level of the sub-nav of the current page.
 
 
+===
 CSS
 ===
 
@@ -147,5 +154,6 @@ The sub nav will be like this (with the current page as Bar )::
     </ul>
 
 The sub nav will display juste the first level.
+
 
 
