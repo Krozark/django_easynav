@@ -1,3 +1,4 @@
+
 ===========
 Introduction
 ===========
@@ -5,9 +6,9 @@ Introduction
 
 Requirements:
 * gblocks module
-    * To add different blocks type you page
+* To add different blocks type you page
 * textile (by default) as markup language
-    * You can disable it by overwriting the templates
+* You can disable it by overwriting the templates
 
 This module is a easy way to make a simle navigation in you website, or a complexe.
 Morover, integrete a systeme to create pages and his content using the admin interface.
