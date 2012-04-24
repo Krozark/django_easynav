@@ -24,7 +24,7 @@ class makeSubUl(Node):
         if parent.itemmenu_set.count() == 0:
             return ""
 
-        res ='<h2>%s</h2><ul class="submenu">' % parent.name
+        res ='<ul class="submenu">'
         for u in parent.itemmenu_set.filter(is_visible=True).order_by('rank'):
             res+= '<li class="subitem"><a href="%s">%s</a></li>' % (u.url,u.name)
         res+='</ul>'
@@ -113,10 +113,6 @@ def getnav(parser, token):
 
         prof = tokens.pop(0)
 
-    try :
-        prof = int(tokens.pop(2))
-    except:
-        pass
     if prof < 0:
         prof = -1
     elif len(tokens) != 0:

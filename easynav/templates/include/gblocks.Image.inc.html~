@@ -1,0 +1,4 @@
+{% load markup generic_flatblocks %}
+
+{% gblock object.slug for object.content_type into "block" %}
+<img src="{{MEDIA_URL}}{{block.image}}">
