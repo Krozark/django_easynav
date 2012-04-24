@@ -52,7 +52,7 @@ Include in you template::
 
 To display the main nav use the follwing tag::
     
-    {% getnav for <node> with lvl = <x>  %}
+    {% getnav for <node> [with [lvl=<x>] ] %}
 
 
 where <node> is the node tha you want to show children
@@ -61,7 +61,7 @@ where <node> is the node tha you want to show children
 
 where <x> is the display level that you want [default = 0].
 
-* use -1 to display all the tree
+* use -1 to display all the tree or don't precise lvl
 * 0 for 1 level
 * 1 for 2 level
 * etc ...
