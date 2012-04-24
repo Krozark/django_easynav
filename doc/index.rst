@@ -4,10 +4,11 @@ Introduction
 
 
 Requirements:
+
 * gblocks module
-* To add different blocks type you page
+    * To add different blocks type you page
 * textile (by default) as markup language
-* You can disable it by overwriting the templates
+    * You can disable it by overwriting the templates
 
 This module is a easy way to make a simle navigation in you website, or a complexe.
 Morover, integrete a systeme to create pages and his content using the admin interface.
@@ -33,6 +34,7 @@ Admin
 -----
 
 In the admin create a new "ItemMenu" with:
+
 * A http:// or https:// url
 * A valide locale url (of the current projet)
 * A named view (that is possible to reverse)
@@ -54,9 +56,11 @@ To display the main nav use the follwing tag::
 
 
 where <node> is the node tha you want to show children
+
 * You cas use main (who is auto created)
 
 where <x> is the display level that you want [default = 0].
+
 * use -1 to display all the tree
 * 0 for 1 level
 * 1 for 2 level
@@ -110,6 +114,7 @@ The getnav tag will render you a tree like this::
     </ul>
 
 With <status> = active or inactive
+
 * menu is a class that is present in all the <ul>
 * item is present in all the <li>
 * menu-lvl-x is present il all the <ul> with x equal to the current level of nav
@@ -226,8 +231,11 @@ Custom
 ------
 
 You can custom the render of the basique page by overwriting: *'easynav/templates/easynav/genericPage.html'*
+
 Each block can be custom by overwriting : *'easynav/templates/include/gblocks.<type>.inc.html'*
+
 Where <type> could be:
+
 * Image
 * Text
 * Title
