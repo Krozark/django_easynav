@@ -90,7 +90,6 @@ def getnav(parser, token):
     if len(tokens) < 2:
         error()
 
-    
     token = tokens.pop(0)
     if token !='for' :
         error()
@@ -106,7 +105,7 @@ def getnav(parser, token):
         if token != "with":
             error()
 
-    while len(token) > 1:
+    while len(tokens) > 1:
         token = tokens.pop(0).split("=")
         
         if token[0] == "lvl":
@@ -129,4 +128,3 @@ def getnav(parser, token):
         return makeSubUl(params)
 
     return makeUl(slug,params)
-
