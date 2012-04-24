@@ -1,5 +1,4 @@
 
-===========
 Introduction
 ===========
 
@@ -14,7 +13,6 @@ This module is a easy way to make a simle navigation in you website, or a comple
 Morover, integrete a systeme to create pages and his content using the admin interface.
 I recomande you to use a module that permit you to edits the database content without use the admin interface (for exemple frontadmin )
 
-============
 Instalations
 ============
 
@@ -28,9 +26,17 @@ to your INSTALLED_APPS
 
 
 
-===
 Use
 ===
+
+Admin
+-----
+
+In the admin create a new "ItemMenu" with:
+* A http:// or https:// url
+* A valide locale url (of the current projet)
+* A named view (that is possible to reverse)
+* A new url (see Make Generic Pages )
 
 The Nav
 =======
@@ -67,7 +73,6 @@ You can use the previous tag, but you will have to hand code all your pages. A v
 This tag will display the FIRST level of the sub-nav of the current page.
 
 
-===
 CSS
 ===
 
@@ -157,4 +162,78 @@ The sub nav will be like this (with the current page as Bar )::
 The sub nav will display juste the first level.
 
 
+Make Generic Pages
+==================
+
+Creation
+--------
+
+* In the admin, create a new "ItemMenu" with "Auto Create Page" True.
+* Then choose the parent node (main by default)
+* Complite de "View" field, (that begin with a "/" ) or leave it blank to auto create it
+* Choose the type of the content that you need in you page (Images, Text, Titles , Image and Text, ...)
+* choose a unique slug for it, or leave it blank to auto create it
+* Order the blanks using "rank" field.
+
+Done.
+
+Modify Content
+--------------
+
+I recomende you to use a module that permit you to edit content 'in live' (ex : frontadmin ).
+In fact, editing block using the admin is not realy easy, but you can try (in gblocks moduls)
+
+Render
+------
+
+The render page use your base.html (herite)::
+    
+    {% extends "base.html" %}
+
+THe page insert his code in the block::
+    
+    {% block project.body %}{% endblock %}
+
+Each block will be encapsulate un a <div> like this::
+    
+    <div class="block">
+        {{ block_content }}
+    </div>
+
+By default the title are in::
+    
+    <h2>Title</h2>
+
+Image::
+    
+    <img src="{{MEDIA_URL}}{{block.image}}">
+
+Links::
+    
+    <a href="{{block.link}}">{{block.link}}</a>
+
+Text::
+    
+    {{ block.text|textile }}
+
+File::
+    
+    <a href="{{MEDIA_URL}}{{block.file}}">File</a>
+
+
+
+Custom
+------
+
+You can custom the render of the basique page by overwriting: *'easynav/templates/easynav/genericPage.html'*
+Each block can be custom by overwriting : *'easynav/templates/include/gblocks.<type>.inc.html'*
+Where <type> could be:
+* Image
+* Text
+* Title
+* ImageAndLink
+* TitleAndFile
+* TitleAndText
+* TitleTextAndFile
+* TitleTextAndImage
 
