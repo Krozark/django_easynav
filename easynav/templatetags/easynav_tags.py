@@ -8,9 +8,10 @@ from django.db.models import Q
 register = Library()
 
 ######################################## GET NAV ########################################
+    ############ SUBNAV ######################
 class makeSubUl(Node):
-    def __init__(self, parser):
-        self.template_parser = parser
+    def __init__(self,params):
+        self.params = params
 
     def render(self, context):
         path=context['request'].path
@@ -30,11 +31,12 @@ class makeSubUl(Node):
         res+='</ul>'
         return res
 
+    ############### Main NAV ##########################
 class makeUl(Node):
-    def __init__(self, parser,slug,prof):
-        self.template_parser = parser
+    def __init__(self,slug,params):
+        self.active_nb = params['active_nb']
         self.slug = slug
-        self.prof = int(prof)
+        self.prof = params['lvl']
 
     def render(self, context):
         path=context['request'].path
@@ -75,7 +77,7 @@ class makeUl(Node):
                 pass
         return res
 
-        
+    ############### PARSER ############################# 
 @register.tag(name="getnav")
 def getnav(parser, token):
 
@@ -83,7 +85,7 @@ def getnav(parser, token):
     fnctl = tokens.pop(0)
 
     def error():
-        raise TemplateSyntaxError, _("%(fonction)s accepts the syntax: {%% %(fontion)s for <easynav_item_slug or name> [with lvl = <x>] %%}\nWith x as a positive number (-1 for all [default])\n If <easynav_item_slug> = \"active\", it the sub nav of the current path that will be display" %{'fonction':fnctl,})
+        raise TemplateSyntaxError, _("%(fonction)s accepts the syntax: {%% %(fontion)s for <easynav_item_slug or name> [with [lvl=<x>] [parent_active=<y>] ] %%}\nWith x and y as a positive number ( default = -1 )\n If <easynav_item_slug> = \"active\", it the sub nav of the current path that will be display" %{'fonction':fnctl,})
     
     if len(tokens) < 2:
         error()
@@ -94,50 +96,37 @@ def getnav(parser, token):
         error()
 
     slug = tokens.pop(0)
-    if slug == '"active"':
-        return makeSubUl(parser)
-    prof = 0
-    if len(tokens) == 4 :
-        token = tokens.pop(0)
+    params = {
+        'lvl': -1,
+        'active_nb' : -1,
+    }
 
+    if len(tokens) > 1 :
+        token = tokens.pop(0)
         if token != "with":
             error()
-        token = tokens.pop(0)
 
-        if token != "lvl":
+    while len(token) > 1:
+        token = tokens.pop(0).split("=")
+        
+        if token[0] == "lvl":
+            try:
+                params['lvl'] = int(token[1])
+            except:
+                error()
+        elif token[0] == "parent_active":
+            try:
+                params['parent_active'] = int(token[1])
+            except:
+                error()
+        else:
             error()
 
-        token = tokens.pop(0)
-        if token != "=":
-            error()
+    if params['lvl'] < 0:
+        params['lvl'] = -1
 
-        prof = tokens.pop(0)
+    if slug == '"active"':
+        return makeSubUl(params)
 
-    if prof < 0:
-        prof = -1
-    elif len(tokens) != 0:
-        error()
-
-    return makeUl(parser,slug,prof)
-
-
-############################### GET CONTENT ###############################
-#@register.tag(name="showcontent")
-#def showblocks(parser, token):
-#    return makeContent(parser)
-#
-#class makeContent(Node):
-#    def __init__(self, parser,slug,prof):
-#        self.template_parser = parser
-#
-#    def render(self, context):
-#        path=context['request'].path
-#
-#        item = ItemMenu.objects.filter(url=path)
-#        if item.count()>0:
-#            item = item[0]
-#        else
-#            return ""
-#
-#        item.itempage_set.order_by('rank')
+    return makeUl(slug,params)
 
