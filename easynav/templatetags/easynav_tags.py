@@ -85,7 +85,7 @@ def getnav(parser, token):
     fnctl = tokens.pop(0)
 
     def error():
-        raise TemplateSyntaxError, _("%(fonction)s accepts the syntax: {%% %(fontion)s for <easynav_item_slug or name> [with [lvl=<x>] [parent_active=<y>] ] %%}\nWith x and y as a positive number ( default = -1 )\n If <easynav_item_slug> = \"active\", it the sub nav of the current path that will be display" %{'fonction':fnctl,})
+        raise TemplateSyntaxError, _("%(fonction)s accepts the syntax: {%% %(fonction)s for <easynav_item_slug or name> [with [lvl=<x>] [parent_active=<y>] ] %%}\nWith x and y as a positive number ( default = -1 )\n If <easynav_item_slug> = \"active\", it the sub nav of the current path that will be display" %{'fonction':fnctl,})
     
     if len(tokens) < 2:
         error()
