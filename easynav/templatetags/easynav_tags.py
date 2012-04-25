@@ -105,7 +105,7 @@ def getnav(parser, token):
         if token != "with":
             error()
 
-    while len(tokens) > 1:
+    while len(tokens) > 0:
         token = tokens.pop(0).split("=")
         
         if token[0] == "lvl":
