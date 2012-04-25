@@ -15,7 +15,10 @@ class GenericView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(GenericView, self).get_context_data(**kwargs)
-        slug =  kwargs.get('slug',False)
+
+        slug =  kwargs['params'].get('slug',False)
+        if not slug:
+            slug =  kwargs.get('slug',False)
         if slug:
             content = ItemPage.objects.filter(parent__slug=slug).order_by('rank')
             print content
